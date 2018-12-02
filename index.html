@@ -1,0 +1,74 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GH strumming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Strumming speed!</h1>
+    <h2>Current strumming speed: <span id="strumspeed"></span></h2>
+    <h2>Peak: <span id="peak"></span></h2>
+    <h2>Average: <span id="average"></span></h2>
+    <button id="reset" onclick="reset();">Reset</button>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous">	</script>
+
+
+     <script>
+        
+        var d = new Date();
+        var n;
+        var i = 0;
+        var j = 0;
+        var max = 0;
+        var x = 0;
+        var first = 0;
+        var c = 0;
+        var dp = 1;
+        function reset() {
+            $("#strumspeed").html("");
+            $("#peak").html("");
+            $("#average").html("");
+            d = new Date();
+            n;
+            i = 0;
+            j = 0;
+            max = 0;
+            x = 0;
+            first = 0;
+            c = 0;
+            dp = 1;        }
+        $(document).keydown(function(){    
+            if(first===1) {
+                    n = d.getTime();
+            }
+            if(first>=1) {
+                if(i>=5) {
+                    j++;
+                    var bps = (1000/x).toFixed(dp);
+                    $("#strumspeed").html(bps);
+                    if(parseFloat(bps) > parseFloat(max)) {
+                        max = bps;
+                        $("#peak").html(max);
+                    }
+                    x=0;
+                    i=0;
+                    c += parseFloat(bps);
+                    $("#average").html((c/j).toFixed(dp));
+                }
+
+                d = new Date();
+                diff = parseInt(d.getTime()) - parseInt(n)
+                n = d.getTime();
+                x += diff/5;
+                console.log(c + " c - j " +  j)
+                i++;
+            }
+            else {
+                first = 1;
+            }
+        });
+    </script>
+</body>
+</html>
